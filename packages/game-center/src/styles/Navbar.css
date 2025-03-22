@@ -1,0 +1,48 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .navbar {
+    display: flex;
+    justify-content: center; /* Yatayda ortalar */
+    align-items: center; /* Dikeyde ortalar */
+    background-color: rgba(10, 28, 46, 1); /* Neon mavi arka plan */
+    width: 100%; /* Navbar genişliği, ekranın %80'i kadar */
+    box-sizing: border-box; /* Padding ve border'ı genişlik hesaplamalarına dahil eder */
+    height: 60px; /* Yükseklik */
+  }
+  
+  .navbar-list {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Burada wrap doğru bir kullanımdır */
+  }
+  
+  .navbar-item {
+    margin-right: 15px;
+  }
+  
+  .navbar-link {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .navbar-link:hover {
+    color: #f0a500;
+  }
+  
+  .navbar-img {
+    position: absolute;
+    left: 20px; 
+    height: 40px; 
+    width: auto;
+    border-radius: 50%;
+  }
+
+
+  
+  
