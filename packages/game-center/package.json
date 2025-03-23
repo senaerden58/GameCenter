@@ -14,8 +14,8 @@
     "framer-motion": "^12.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.4.0",
-    "react-scripts": "5.0.1",
+    "react-router-dom": "^6.30.0",
+    "react-scripts": "^5.0.1",
     "swiper": "^11.2.6",
     "web-vitals": "^2.1.4"
   },
@@ -42,5 +42,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
+    "babel-jest": "^29.7.0"
   }
 }

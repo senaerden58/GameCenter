@@ -7,7 +7,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
-
 const Home = () => {
   return (
     <div className="relative">
@@ -19,21 +18,43 @@ const Home = () => {
         autoplay={{ delay: 3000 }}
         loop={true}
         effect="fade"
-        className="w-full h-full"
+        className="w-full h-screen"  // Full screen height for Swiper
       >
         <SwiperSlide>
-          <div className="flex justify-center items-center h-full text-white text-3xl font-bold bg-blue-900">
-            Slide 1 - Oyun İçeriği
+        <div className="toyotaSlider">
+            <img
+              src="/images/morluLogo.jpeg"
+              alt="Game Center"
+              className="w-full h-auto object-contain"  // Full width, auto height
+            />
+          </div>
+        </SwiperSlide>
+
+        <SwiperSlide>
+        <div className="toyotaSlider">
+          <img
+              src="/images/onden.jpg"
+              alt="Game Center"
+              className="w-full h-auto object-contain"  // Full width, auto height
+            />
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="flex justify-center items-center h-full text-white text-3xl font-bold bg-purple-900">
-            Slide 2 - Yeni Güncellemeler
+        <div className="toyotaSlider">
+          <img
+              src="/images/yandan.jpg"
+              alt="Game Center"
+              className="w-full h-auto object-contain"  // Full width, auto height
+            />
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="flex justify-center items-center h-full text-white text-3xl font-bold bg-red-900">
-            Slide 3 - Turnuvalar
+          <div className="toyotaSlider">
+          <img
+              src="/images/arkadan.jpg"
+              alt="Game Center"
+              className="w-full h-auto object-contain"  // Full width, auto height
+            />
           </div>
         </SwiperSlide>
       </Swiper>

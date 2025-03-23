@@ -19,5 +19,85 @@
   .relative{
     color:white;
   }
-  
- 
+
+.swiper {
+  width: 100%;
+  height: 50vh; /* Ekran yüksekliğine uyumlu */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Swiper slide resimleri için animasyon ve stil */
+.toyotaSlider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  transition: all 0.5s ease;
+}
+
+/* Resimler için stil */
+.toyotaSlider img {
+  max-width: 100%; /* Genişliği %100 */
+  height: 100%; /* Yüksekliği %100 */
+  object-fit: cover; /* Oranları koruyarak kapsar */
+
+}
+
+.toyotaSlider:hover img {
+  transform: scale(1.1); /* Hover durumunda biraz büyütme efekti */
+  opacity: 1; /* Hover durumunda opaklığı artır */
+}
+.swiper {
+  width: 100%;
+  height: 50vh; /* Ekran yüksekliğine uyumlu */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Sayfa navigasyonu (sayfa göstergeleri) için stil */
+.swiper-pagination-bullet {
+  background-color: rgba(255, 255, 255, 0.6); /* Hafif beyaz */
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  font-size: 35px; 
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: rgba(0, 0, 0, 0.6); /* Hover durumunda okların arka planı koyulaşacak */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* İçerik metinleri için stil */
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-size: 2rem;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+
