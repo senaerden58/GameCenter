@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client'; // react-dom/client import edilmesi gerekiyor
+import ReactDOM from 'react-dom/client'; 
 import App from './App';
 
 // React 18'de, root elementini createRoot ile başlatıyoruz

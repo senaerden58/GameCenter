@@ -1,0 +1,76 @@
+.toyotaSlider {
+  width: 100%;
+  height: 50vh;
+  overflow: hidden;  
+  /* Bellirlenen boyutları aşarsa taşan kısımlar gizlenir */
+  display: flex;
+   /* yatayda hizalanabilsin diye kullanılır */
+  justify-content: center; 
+  /* yatayda (x ekseninde) merkeze alır */
+  align-items: center;
+  /* dikeyde (y ekseninde) merkeze alır */
+  position: relative; 
+  /* içindeki diğer elementler buna göre konumlandırılabilir */
+}
+
+.toyotaSlider img {
+  width: 50%;
+  height: 100%;
+  border-radius:5%;
+  object-fit: cover;
+   /* Resmi kırpmadan, alanın tamamını dolduracak şekilde ölçeklendirir */
+  display: block;
+  /* Resmi satır içi öğe yerine blok öğesi olarak gösterir */
+  transition: transform 0.5s ease;
+  /* 0.5 saniyede yumuşak geçişle dönüşüm efektini uygular */
+}
+
+.toyotaSlider:hover img {
+  transform: scale(1.1);
+  /*mouse ile üzerine gelindiğinde resmi büyütür */
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    position: absolute  ;
+    top: 50% ;
+    transform: translateY(-50%) !important;
+    z-index: 1000  ;
+    color: white !important;
+    cursor: pointer  ;
+    display: block !important;
+    visibility: visible ;
+}
+.swiper-button-next {
+  right: 25% !important;
+}
+.swiper-button-prev {
+  left: 25% !important;
+}
+
+
+.swiper-button-next:hover, .swiper-button-prev:hover {
+  color: rgb(250, 42, 170) !important;
+}
+
+
+.swiper-pagination {
+  position: absolute;
+  bottom: 20px; /* Resmin altında 20px boşluk bırak */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10; /* Resmin üstünde kalmasını sağlar */
+}
+
+.swiper-pagination-bullet {
+  background-color: white ; 
+  width: 12px;
+  height: 12px;
+  opacity: 0.7; /* Hafif şeffaflık ekle */
+  transition: opacity 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+  background-color:white !important; 
+  opacity: 1;
+}
