@@ -3,10 +3,11 @@ import axios from "axios";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 // import { getGames } from "./api";
 
-import Navbar from './components/Navbar';
-import Games from './components/Games';
-import Login from './components/Login';
-import Home from './components/Home';
+import Navbar from './components/Navbar.js';
+import Games from './components/Games.js';
+import Login from './components/Login.js';
+import Home from './components/Home.js';
+
 
 // const API_URL = "http://localhost:3000";
 
