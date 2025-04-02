@@ -1,52 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import CryptoJS from 'crypto-js';  // crypto-js paketini import ettik
+import CryptoJS from 'crypto-js';  
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate(); 
 
-  useEffect(() => {
-    // Sayfa yüklendiğinde, eğer daha önce giriş yapılmışsa token'ı kontrol et
-    const token = localStorage.getItem('token');
-    if (token) {
-      // Eğer token varsa, otomatik giriş yapılabilir
-      console.log("Token bulundu:", token);
-      // Burada token doğrulama yapılabilir
-    }
-  }, []);
+  // SHA-256 ile şifreyi hash'lemek için fonksiyon
+  const hashPassword = (password) => {
+    return CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
+  };
 
+  // Giriş formunun submit fonksiyonu
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Şifreyi SHA-256 ile şifrele (crypto-js kullanarak)
-    const hashedPassword = CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
+    
+    // Şifreyi hash'le
+    const hashedPassword = hashPassword(password);
 
     try {
-      const response = await axios.post('http://localhost:5000/login', {
+      // Şifreyi ve email'i sunucuya gönder
+      const response = await axios.post('http://localhost:5001/login', {
         email: email,
         password: hashedPassword
       });
 
-      if (response.data.token) {
-        // Beni Hatırla seçeneği aktifse token'ı localStorage'a kaydet
-        if (rememberMe) {
-          localStorage.setItem('token', response.data.token);
-        }
-
-        alert('Giriş başarılı!');
-        // Kullanıcıyı ana sayfaya yönlendirebilirsiniz
-      }
+      alert(response.data.message); // Giriş başarılı mesajı
+   
+      navigate("/");
+      // Başarıyla giriş yaptıktan sonra, kullanıcı token'ını saklayabilirsiniz
+      localStorage.setItem('userToken', response.data.token); 
     } catch (err) {
       console.error(err);
-      alert('Giriş hatası: ' + err.response?.data?.error || 'Bilinmeyen bir hata oluştu');
+      setError('Giriş hatası: ' + (err.response?.data?.message || 'Bilinmeyen bir hata oluştu.'));
     }
   };
 
   return (
     <div>
       <h2>Giriş Yap</h2>
+      {error && <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label>Email</label>
@@ -65,14 +61,6 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)} 
             required 
           />
-        </div>
-        <div>
-          <input 
-            type="checkbox" 
-            checked={rememberMe} 
-            onChange={() => setRememberMe(!rememberMe)} 
-          />
-          <label>Beni Hatırla</label>
         </div>
         <button type="submit">Giriş Yap</button>
       </form>

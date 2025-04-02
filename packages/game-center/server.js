@@ -1,56 +1,92 @@
 import express from 'express';
-import cors from 'cors';
-import { Pool } from 'pg';
-import bcrypt from 'bcryptjs';  // SHA-256 için bcrypt kullanabiliriz
-import crypto from 'crypto';    // SHA-256 şifreleme için crypto modülü
+import pg from 'pg'; 
+import crypto from 'crypto'; 
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import cors from 'cors'; // CORS modülünü import ettik
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+const { Pool } = pg;
+const app = express();  
+const port = 5001;
+;
 
-// PostgreSQL bağlantısını ayarla
+// CORS middleware'ini uygulamaya ekleyin
+app.use(cors({
+  origin: 'http://localhost:3000',  // React uygulamanızın çalıştığı URL
+  methods: 'GET,POST',
+  credentials: true
+}));
+
+// PostgreSQL Bağlantı
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "gameCenter", // Veritabanı adını buraya yaz
-  password: "0605", // PostgreSQL şifreniz
-  port: 5432, // Default PostgreSQL portu
+  user: 'postgres',
+  host: 'localhost',
+  database: 'gameCenter',
+  password: '0605',
+  port: 5432,
 });
 
-// Giriş işlemi - email ve şifre kontrolü
+// Body parser ile JSON verisini almak
+app.use(bodyParser.json());
+
+// Session konfigürasyonu
+app.use(session({
+  secret: 'secret-key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // 'secure' özelliği sadece HTTPS bağlantılarında gereklidir.
+}));
+app.get('/', (req, res) => {
+  res.send('Backend çalışıyor!');
+});
+// SHA-256 şifreleme fonksiyonu
+const hashPassword = (password) => {
+  return crypto.createHash('sha256').update(password).digest('hex');
+};
+
+// Kayıt olma (Register) Route
+app.post('/register', async (req, res) => {
+  const { email, password } = req.body;
+
+  // Şifreyi hash'leme
+  const hashedPassword = hashPassword(password);
+
+  try {
+    // Veritabanına kullanıcıyı ekleyin
+    const result = await pool.query('INSERT INTO users(email, password) VALUES($1, $2) RETURNING *', [email, hashedPassword]);
+    res.status(201).json({ message: 'Kayıt başarılı!', user: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Veritabanı hatası.' });
+  }
+});
+
+// Giriş Yapma (Login) Route
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
+  // Şifreyi hash'leme
+  const hashedPassword = hashPassword(password);
+
   try {
-    // Veritabanında kullanıcıyı bul
-    const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-    
+    // Veritabanındaki kullanıcıyı sorgulama
+    const result = await pool.query('SELECT * FROM users WHERE email = $1 AND password = $2', [email, hashedPassword]);
+
     if (result.rows.length === 0) {
-      return res.status(400).json({ error: 'Kullanıcı bulunamadı' });
+      return res.status(401).json({ message: 'E-posta veya şifre hatalı!' });
     }
 
-    const user = result.rows[0];
+    // Kullanıcıyı session'a kaydetme
+    req.session.user = { email };
 
-    // Şifreyi SHA-256 ile kontrol et
-    const hash = crypto.createHash('sha256').update(password).digest('hex');
-    
-    if (hash !== user.password) {
-      return res.status(400).json({ error: 'Yanlış şifre' });
-    }
-
-    // Token oluştur (JWT veya benzeri)
-    const token = crypto.randomBytes(64).toString('hex'); // Bu basit bir token
-    await pool.query('UPDATE users SET token = $1 WHERE id = $2', [token, user.id]);
-
-    res.json({ message: 'Giriş başarılı', token: token });
+    res.json({ message: 'Giriş başarılı!', user: result.rows[0] });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Sunucu hatası' });
+    res.status(500).json({ message: 'Veritabanı hatası.' });
   }
 });
 
 // Sunucuyu başlat
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server ${PORT} portunda çalışıyor`);
+app.listen(port, () => {
+  console.log(`Sunucu ${port} portunda çalışıyor`);
 });

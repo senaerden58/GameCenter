@@ -7,6 +7,7 @@ import Navbar from './components/Navbar.js';
 import Games from './components/Games.js';
 import Login from './components/Login.js';
 import Home from './components/Home.js';
+import Register from './components/Register.js';
 
 
 // const API_URL = "http://localhost:3000";
@@ -29,7 +30,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/games" element={<Games />} />
           <Route path="/login" element={<Login />} />
-
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
     </Router>
